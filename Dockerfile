@@ -1,12 +1,14 @@
 FROM node:lts-alpine
 LABEL maintaner "Abreto Fu <m@abreto.net>"
 
+RUN yarn global add http-server
+
 ENV APP_ROOT=/app
 WORKDIR ${APP_ROOT}
 
 COPY package.json ${APP_ROOT}
 COPY yarn.lock ${APP_ROOT}
-RUN yarn && yarn global add http-server
+RUN yarn
 COPY . ${APP_ROOT}
 
 ENV NODE_ENV=production \
