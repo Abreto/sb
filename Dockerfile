@@ -23,4 +23,4 @@ ENV NODE_ENV=production \
 
 COPY --from=builder /app/public ${APP_ROOT}
 
-CMD http-server . -p ${APP_PORT} -d false
+ENTRYPOINT [ "sh", "-c", "http-server . -p ${APP_PORT} -d false" ]
