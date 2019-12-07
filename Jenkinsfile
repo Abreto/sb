@@ -13,6 +13,11 @@ pipeline {
       steps {
         sh 'yarn build'
       }
+      post {
+        always {
+          archiveArtifacts 'public/**/*'
+        }
+      }
     }
   }
 }
