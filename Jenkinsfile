@@ -12,11 +12,7 @@ pipeline {
     stage('Build') {
       steps {
         sh 'yarn build'
-      }
-      post {
-        always {
-          archiveArtifacts 'public/**/*'
-        }
+        archiveArtifacts 'public/**/*'
       }
     }
   }
