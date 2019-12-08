@@ -10,17 +10,29 @@ COPY . ${BUILD_AT}
 
 RUN yarn build
 
-FROM node:lts-alpine
+FROM alpine
 LABEL maintaner "Abreto Fu <m@abreto.net>"
 
-RUN yarn global add http-server
+RUN apk --no-cache add lighttpd
 
 ENV APP_ROOT=/app
 WORKDIR ${APP_ROOT}
 
-ENV NODE_ENV=production \
-    APP_PORT=8080
+RUN cat > ${APP_ROOT}/lighttpd.conf << EOF
+        server.document-root = "${APP_ROOT}/public" 
 
-COPY --from=builder /app/public ${APP_ROOT}
+        server.port = 3000
 
-ENTRYPOINT [ "sh", "-c", "http-server . -p ${APP_PORT} -d false" ]
+        mimetype.assign = (
+          ".html" => "text/html", 
+          ".txt" => "text/plain",
+          ".jpg" => "image/jpeg",
+          ".png" => "image/png" 
+        )
+    EOF
+
+EXPOSE 3000
+
+COPY --from=builder /app/public ${APP_ROOT}/public
+
+ENTRYPOINT [ "lighttpd", "-D", "-f", "lighttpd.conf" ]
