@@ -7,15 +7,15 @@ pipeline {
     stage('Test') {
       failFast true
       parallel {
-        stage('Node') {
+        stage('Test::Node') {
           agent { docker 'node:lts' }
           stages {
-            stage('Prepare') {
+            stage('Test::Node::Prepare') {
               steps {
                 sh 'yarn'
               }
             }
-            stage('Build') {
+            stage('Test::Node::Build') {
               steps {
                 sh 'yarn build'
                 archiveArtifacts 'public/'
@@ -23,7 +23,7 @@ pipeline {
             }
           }
         }
-        stage('Docker') {
+        stage('Test::Docker') {
           agent { docker 'docker:dind' }
           steps {
             sh 'docker build .'
