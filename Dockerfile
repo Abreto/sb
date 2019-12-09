@@ -21,12 +21,7 @@ WORKDIR ${APP_ROOT}
 RUN printf '\
         server.document-root = "%s/public/" \n\
         server.port = 3000 \n\
-        mimetype.assign = ( \n\
-          ".html" => "text/html", \n\
-          ".txt" => "text/plain", \n\
-          ".jpg" => "image/jpeg", \n\
-          ".png" => "image/png" \n\
-        ) \n\
+        include "/etc/lighttpd/mime-types.conf" \n\
         index-file.names = ( "index.html" ) \n\
     ' "$APP_ROOT" > ${APP_ROOT}/lighttpd.conf
 
