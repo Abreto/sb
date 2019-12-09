@@ -18,18 +18,17 @@ RUN apk --no-cache add lighttpd
 ENV APP_ROOT=/app
 WORKDIR ${APP_ROOT}
 
-RUN cat > ${APP_ROOT}/lighttpd.conf << EOF
-        server.document-root = "${APP_ROOT}/public" 
-
-        server.port = 3000
-
-        mimetype.assign = (
-          ".html" => "text/html", 
-          ".txt" => "text/plain",
-          ".jpg" => "image/jpeg",
-          ".png" => "image/png" 
-        )
-    EOF
+RUN printf '\
+        server.document-root = "%s/public/" \n\
+        server.port = 3000 \n\
+        mimetype.assign = ( \n\
+          ".html" => "text/html", \n\
+          ".txt" => "text/plain", \n\
+          ".jpg" => "image/jpeg", \n\
+          ".png" => "image/png" \n\
+        ) \n\
+        index-file.names = ( "index.html" ) \n\
+    ' "$APP_ROOT" > ${APP_ROOT}/lighttpd.conf
 
 EXPOSE 3000
 
