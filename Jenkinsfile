@@ -25,8 +25,25 @@ pipeline {
         }
         stage('Docker') {
           agent { docker 'docker:dind' }
-          steps {
-            sh 'docker build .'
+          stages {
+            stage('Build') {
+              steps {
+               sh 'docker build -t sb .'
+              }
+            }
+            stage('Test') {
+              steps {
+                sh 'apk add curl'
+                sh 'docker run -d -p 3000:3000 --name sb sb'
+                sh '''
+                  TEST_URI='http://127.0.0.1:3000 http://127.0.0.1:3000/ http://127.0.0.1:3000/archives http://127.0.0.1:3000/archives/'
+                  for uri in $TEST_URI; do
+                    curl -i "$uri"
+                  done
+                '''
+                sh 'docker logs sb'
+              }
+            }
           }
         }
       }
