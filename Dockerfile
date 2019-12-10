@@ -18,12 +18,14 @@ RUN apk --no-cache add lighttpd
 ENV APP_ROOT=/app
 WORKDIR ${APP_ROOT}
 
-RUN printf '\
-        server.document-root = "%s/public/" \n\
-        server.port = 3000 \n\
-        include "/etc/lighttpd/mime-types.conf" \n\
-        index-file.names = ( "index.html" ) \n\
-    ' "$APP_ROOT" > ${APP_ROOT}/lighttpd.conf
+RUN { \
+    echo 'server.document-root = "'"${APP_ROOT}"'/public/"';                    \
+    echo '';                                                                    \
+    echo 'server.port = 3000';                                                  \
+    echo '';                                                                    \
+    echo 'include "/etc/lighttpd/mime-types.conf"';                             \
+    echo 'index-file.names = ( "index.html" )';                                 \
+    } > ${APP_ROOT}/lighttpd.conf
 
 EXPOSE 3000
 
