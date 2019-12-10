@@ -42,7 +42,7 @@ pipeline {
                     curl -i "$uri"
                   done
                 '''
-                sh 'docker logs sb-test-container'
+                sh 'docker logs ci-sb-test-container'
               }
             }
           }
