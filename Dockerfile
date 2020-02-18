@@ -11,7 +11,7 @@ COPY . ${BUILD_AT}
 RUN yarn build
 
 FROM alpine
-LABEL maintaner "Abreto Fu <m@abreto.net>"
+LABEL maintaner "Abreto Fu <public@abreto.email>"
 
 RUN apk --no-cache add lighttpd
 
@@ -21,13 +21,13 @@ WORKDIR ${APP_ROOT}
 RUN { \
     echo 'server.document-root = "'"${APP_ROOT}"'/public/"';                    \
     echo '';                                                                    \
-    echo 'server.port = 3000';                                                  \
+    echo 'server.port = 80';                                                    \
     echo '';                                                                    \
     echo 'include "/etc/lighttpd/mime-types.conf"';                             \
     echo 'index-file.names = ( "index.html" )';                                 \
     } > ${APP_ROOT}/lighttpd.conf
 
-EXPOSE 3000
+EXPOSE 80
 
 COPY --from=builder /app/public ${APP_ROOT}/public
 
