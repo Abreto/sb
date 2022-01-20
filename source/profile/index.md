@@ -6,7 +6,7 @@ date: 2019-11-18
 
 ## Contact
 
-- Office: Room 339, Building 5
+- Office: Room 301, Building 5
 - Address: South Fourth Street 4#, Zhong Guan Cun, Beijing
 - Apartment: State Key Lab. of Computer Science
 - Email: fuxd \[AT\] ios \[DOT\] ac \[DOT\] cn
